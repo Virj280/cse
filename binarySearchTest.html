@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1</title>
+</head>
+    <script>
+        function randomGenerator() {
+            let preRound = Math.random('0,100');
+            Math.floor('preRound');
+        }
+
+        const secretNum = valNum;
+        function check() {
+            let ui = document.getElementById("userInput");
+            let fd = document.getElementById("feedback");
+            if (ui.value > secretNum) {
+                fd.innerHTML = "Too High! (just like you)";
+            }
+            else if (ui.value < secretNum) {
+                fd.innerHTML = "Too Low!";
+            }
+            else {
+                fd.innerHTML = "Correct!";
+            }
+        }
+    </script>
+<body>
+    <p id="feedback"></p>
+    <input type="number" id="userInput">
+    <input type="button" onclick="check()">
+</body>
+</html>

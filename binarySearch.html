@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="Lower" onclick="guess(0)">
+    <p id="guess">50</p>
+    <input type="button" value="Higher" onclick="guess(1)">
+    <input type="button" value="You guessed!" onclick="guess(2)">
+    
+    <script>
+        var highValue = 100;
+        var lowValue = 0;
+
+        function guess(hl){
+            const target = document.getElementById("guess");
+            //alert(hl);
+            // alert("Is your number "+ target.innerHTML);
+            let guess = parseInt(target.innerHTML);
+            //guess is now a number
+            if (hl == 1){//take higher half
+                lowValue = (guess);
+                console.log(lowValue);
+            }
+            else if (hl == 0 ){//take lower half
+                highValue = guess;
+            }
+            else if (hl == 2) {
+
+                document.inner
+            }
+            guess = Math.floor((highValue+lowValue)/2) ;//will this yield a fraction?????
+
+            target.innerHTML = guess;
+            
+
+        }
+    </script>
+</body>
+</html>
