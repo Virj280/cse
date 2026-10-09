@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Guessing Game</title>
+    <style>
+        /* Space Theme Styling */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+        body {
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            font-family: 'Share Tech Mono', monospace;
+            color: #00f0ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            box-shadow: 
+                50vw 20vh 0px #fff, 
+                20vw 80vh 1px #00f0ff, 
+                80vw 30vh 1px #ff007f, 
+                10vw 40vh 2px #fff, 
+                90vw 70vh 1px #00f0ff,
+                30vw 10vh 1px #ff007f,
+                70vw 90vh 2px #fff;
+            opacity: 0.7;
+            pointer-events: none;
+            animation: twinkle 4s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.4; }
+            100% { opacity: 0.9; }
+        }
+
+        p {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 3rem;
+            color: #ffffff;
+            text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff, 0 0 40px #00f0ff;
+            margin-bottom: 25px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-align: center;
+            z-index: 1;
+        }
+
+        label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ff007f;
+            margin-bottom: 12px;
+            text-shadow: 0 0 8px rgba(255, 0, 127, 0.6);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            z-index: 1;
+        }
+
+        input[type="number"] {
+            padding: 14px 20px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.2rem;
+            border: 2px solid #00f0ff;
+            border-radius: 4px;
+            background-color: rgba(10, 15, 30, 0.85);
+            color: #00f0ff;
+            outline: none;
+            width: 260px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        input[type="number"]::placeholder {
+            color: rgba(0, 240, 255, 0.4);
+        }
+
+        input[type="number"]:focus {
+            border-color: #ff007f;
+            color: #ffffff;
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.6), inset 0 0 15px rgba(255, 0, 127, 0.3);
+            transform: scale(1.02);
+        }
+
+        input[type="button"] {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #00f0ff 0%, #0077ff 100%);
+            color: #090a0f;
+            border: none;
+            border-radius: 4px;
+            padding: 14px 32px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            z-index: 1;
+        }
+
+        input[type="button"]:hover {
+            background: linear-gradient(135deg, #ff007f 0%, #7000ff 100%);
+            color: #ffffff;
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.8);
+            transform: translateY(-2px);
+        }
+
+        input[type="button"]:active {
+            transform: translateY(1px);
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
+        }
+
+        #feedback {
+            margin-top: 18px;
+            font-size: 1.1rem;
+            color: #00f0ff;
+            text-shadow: 0 0 10px #00f0ff;
+            z-index: 1;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <p>2 Player Game</p>
+    <label for="secret" id="helplabel">Set Secret Number (1 - 100)</label>
+    <input type="number"
+           name="secret"
+           id="secretNum"
+           placeholder="Enter a Number"
+           min="1"
+           max="100"
+           onkeydown="if(event.key === 'Enter') handleGameLogic()">
+    <input type="button" 
+           name="SetValue" 
+           id="button"
+           value="Submit"
+           onclick="handleGameLogic()">
+    
+    <div id="feedback"></div>
+
+    <script src="guessinggame.js"></script>
+</body>
+</html>
