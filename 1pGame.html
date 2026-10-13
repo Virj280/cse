@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+        body {
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            font-family: 'Share Tech Mono', monospace;
+            color: #00f0ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            box-shadow:
+                50vw 20vh 0px #fff,
+                20vw 80vh 1px #00f0ff,
+                80vw 30vh 1px #ff007f,
+                10vw 40vh 2px #fff,
+                90vw 70vh 1px #00f0ff,
+                30vw 10vh 1px #ff007f,
+                70vw 90vh 2px #fff;
+            opacity: 0.7;
+            pointer-events: none;
+            animation: twinkle 4s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.4; }
+            100% { opacity: 0.9; }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #00f0ff;
+            text-shadow: 0 0 10px #00f0ff, 0 0 25px #00f0ff;
+            text-align: center;
+            letter-spacing: 3px;
+            z-index: 1;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ff007f;
+            margin-bottom: 12px;
+            text-shadow: 0 0 8px rgba(255, 0, 127, 0.6);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            z-index: 1;
+        }
+
+        #guess {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 4rem;
+            color: #ffffff;
+            text-shadow:
+                0 0 10px #00f0ff,
+                0 0 20px #00f0ff,
+                0 0 40px #00f0ff;
+            margin: 20px 0 30px;
+            letter-spacing: 4px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            border-radius: 8px;
+            background: rgba(10, 15, 30, 0.65);
+            box-shadow:
+                0 0 25px rgba(0, 240, 255, 0.12),
+                inset 0 0 25px rgba(0, 240, 255, 0.04);
+            z-index: 1;
+            max-width: calc(100vw - 100px);
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            z-index: 1;
+        }
+
+        input[type="button"] {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #00f0ff 0%, #0077ff 100%);
+            color: #090a0f;
+            border: none;
+            border-radius: 4px;
+            padding: 14px 22px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+        }
+
+        input[type="button"]:hover {
+            background: linear-gradient(135deg, #ff007f 0%, #7000ff 100%);
+            color: #ffffff;
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.8);
+            transform: translateY(-2px);
+        }
+
+        input[type="button"]:active {
+            transform: translateY(1px);
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.8);
+        }
+
+        #feedback {
+            margin-top: 24px;
+            font-size: 1rem;
+            color: #00f0ff;
+            text-shadow: 0 0 10px #00f0ff;
+            z-index: 1;
+            min-height: 24px;
+            text-align: center;
+        }
+
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+
+            .game-container {
+                padding: 25px 15px;
+                max-width: calc(100vw - 50px);
+            }
+
+            .button-row {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            input[type="button"] {
+                width: 100%;
+                font-size: 0.8rem;
+            }
+
+            #guess {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-container">
+        <h1>NUMBER PROTOCOL</h1>
+        <label>Is your number...</label>
+
+        <p id="guess">50</p>
+
+        <div class="button-row">
+            <input type="button" value="Lower" onclick="guess(0)">
+            <input type="button" value="Higher" onclick="guess(1)">
+            <input type="button" value="Correct!" onclick="guess(2)">
+        </div>
+
+        <p id="feedback">AWAITING INPUT...</p>
+    </div>
+
+    <script>
+        var highValue = 100;
+        var lowValue = 0;
+
+        function guess(hl) {
+            const target = document.getElementById("guess");
+            const feedback = document.getElementById("feedback");
+            let currentGuess = parseInt(target.innerHTML);
+
+            if (hl == 2) {
+                feedback.innerHTML = "NUMBER CONFIRMED. REDIRECTING...";
+                window.location.href =
+                    "https://www.desmos.com/3d/pccvurkggz";
+                return;
+            }
+
+            if (hl == 1) {
+                lowValue = currentGuess;
+                feedback.innerHTML = "SEARCHING HIGHER...";
+            }
+            else if (hl == 0) {
+                highValue = currentGuess;
+                feedback.innerHTML = "SEARCHING LOWER...";
+            }
+
+            currentGuess = Math.floor(
+                (highValue + lowValue) / 2
+            );
+
+            target.innerHTML = currentGuess;
+        }
+    </script>
+</body>
+</html>
